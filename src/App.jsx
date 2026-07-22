@@ -1,5 +1,11 @@
 import { useState } from "react";
 import "./App.css";
+import clear from "./image/clear.jpg";
+import clouds from "./image/clouds.jpg";
+import rain from "./image/rainy.jpg";
+import snow from "./image/snow.jpg";
+import mist from "./image/mist.jpg";
+import thunderstorm from "./image/thunderstorm.jpg";
 
 function App()
 {
@@ -7,12 +13,46 @@ function App()
 
   const [weatherData, setWeatherData] = useState(null);
 
+  const [loading, setLoading] = useState(false);  
+
   // Generate the weather icon URL if weather data is available
   const iconUrl = weatherData
   ? `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`
   : "";
+
+  let backgroundImage = clear;
+
+if (weatherData) {
+  switch (weatherData.weather[0].main) {
+    case "Clouds":
+      backgroundImage = clouds;
+      break;
+
+    case "Rain":
+      backgroundImage = rain;
+      break;
+
+    case "Snow":
+      backgroundImage = snow;
+      break;
+
+    case "Mist":
+      backgroundImage = mist;
+      break;
+
+    case "Thunderstorm":
+      backgroundImage = thunderstorm;
+      break;
+
+    default:
+      backgroundImage = clear;
+  }
+}
+
+
   async function handleSearch() 
   {
+        
 
     // Get the API key from the .env file
   const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
@@ -27,12 +67,15 @@ function App()
   const data = await response.json();
  
   setWeatherData(data);
-
+  
+  setLoading(false);  
   
 }
   return (
 
-    <div className="app">
+    <div className="app" style={{
+    backgroundImage: `url(${backgroundImage})`,
+  }}>
       <h1>Weather App</h1>
 
 <div className="search-box">
@@ -45,25 +88,44 @@ function App()
       <button onClick={handleSearch}>
        Search
       </button>
-      </div>
+   </div>
 
        {weatherData && (
       <div className="weather-card">
         <h2>{weatherData.name}</h2>
+        <p className="country">
+         {weatherData.sys.country}
+         </p>
 
         <img src={iconUrl} alt="Weather Icon" />
 
-         <p>Temperature : {weatherData.main.temp} °C</p>
+        <h1 className="temp">
+        {Math.round(weatherData.main.temp)}°C
+        </h1>
 
-         <p>Humidity  : {weatherData.main.humidity} %</p>
+       <div className="weather-details">
 
-        <p>Wind : {weatherData.wind.speed} m/s</p>
+  <div className="detail-card">
+    <h3>💧 Humidity</h3>
+    <p>{weatherData.main.humidity}%</p>
+  </div>
 
-        <p>Feels_like : {weatherData.main.feels_like}</p>
+  <div className="detail-card">
+    <h3>🌬 Wind</h3>
+    <p>{weatherData.wind.speed} m/s</p>
+  </div>
 
-        <p>Main : {weatherData.weather[0].main} </p>
+  <div className="detail-card">
+    <h3>🌡 Feels Like</h3>
+    <p>{Math.round(weatherData.main.feels_like)}°C</p>
+  </div>
 
-        <p>Description : {weatherData.weather[0].description} </p>
+  <div className="detail-card">
+    <h3>☁️ Weather</h3>
+    <p>{weatherData.weather[0].main}</p>
+  </div>
+
+</div>
 
         
       </div>

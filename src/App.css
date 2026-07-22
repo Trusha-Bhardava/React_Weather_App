@@ -1,3 +1,15 @@
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html, body, #root{
+    width:100%;
+    min-height:100%;
+}
+
 body{
     margin:0;
     padding:0;
@@ -7,10 +19,24 @@ body{
 
 .app{
     min-height:100vh;
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    transition:background-image 0.5s ease-in-out;
+
     display:flex;
+
     flex-direction:column;
-    justify-content:center;
+
     align-items:center;
+
+   width:100%;
+    
+
 }
 
 h1{
@@ -51,7 +77,7 @@ h1{
 }
 
 .weather-card{
-    width:350px;
+    width:400px;
     background:#1e293b;      /* Dark blue-gray */
     border-radius:20px;
     padding:25px;
@@ -62,7 +88,8 @@ h1{
 .weather-card h2{
     color:white;
     margin-bottom:10px;
-    font-size:32px;
+    font-size:35px;
+    margin: 5px;
 }
 
 .weather-card p{
@@ -72,5 +99,52 @@ h1{
 }
 
 .weather-card img{
-    width:100px;
+    width:150px;
 }
+
+.weather-details{
+    display: grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap: 20px;
+}
+
+.detail-card{
+    background:rgba(255,255,255,0.1);
+
+    border-radius:15px;
+
+    padding:15px;
+
+    text-align:center;
+
+    transition:0.3s;
+}
+
+.detail-card:hover{
+    /* Smoothly lifts the card up on hover */
+    transform:translateY(-5px);  
+
+    background:rgba(255,255,255,0.2);
+}
+
+.detail-card h3{
+    margin:0;
+
+    font-size:18px;
+
+    color:white;
+}
+
+.detail-card p{
+    margin-top:10px;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:white;
+}
+
+
